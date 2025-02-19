@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адресаты</title>
+    <!-- Подключаем Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        /* Стили для списка адресатов */
+        ul {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        ul li {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 16px;
+            color: #555;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        ul li:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Стили для иконок */
+        .icon {
+            margin-right: 10px;
+            color: #4a90e2;
+        }
+
+        /* Стили для кнопки добавления адресата */
+        .add-button {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .add-button:hover {
+            background-color: #357abd;
+        }
+
+        /* Стили для ссылки "На главную" */
+        .back-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-link a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .back-link a:hover {
+            color: #357abd;
+        }
+
+        .back-link a i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1><i class="fas fa-users icon"></i> Адресаты</h1>
+
+    <!-- Кнопка добавления нового адресата (опционально) -->
+    <a href="{% url 'add_recipient' %}" class="add-button"><i class="fas fa-plus"></i> Добавить адресата</a>
+
+    <!-- Список адресатов -->
+    <ul>
+        {% for recipient in recipients %}
+            <li>
+                <span>{{ recipient.name }} &lt;{{ recipient.email }}&gt;</span>
+                <div>
+                    <a href="{% url 'edit_recipient' recipient.id %}" title="Редактировать"><i class="fas fa-edit"></i></a>
+                    <a href="{% url 'delete_recipient' recipient.id %}" title="Удалить"><i class="fas fa-trash"></i></a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Ссылка "На главную" -->
+    <div class="back-link">
+        <p><a href="{% url 'index' %}"><i class="fas fa-home"></i> На главную</a></p>
+    </div>
+</body>
+</html>

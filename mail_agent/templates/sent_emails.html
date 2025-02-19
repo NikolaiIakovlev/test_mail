@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Отправленные письма</title>
+{% endblock title %}
+
+{% block content %}
+    <h1>Отправленные письма</h1>
+
+    <ul>
+        {% for email in emails %}
+            <li>
+                <strong>Кому:</strong> 
+                <ul>
+                    {% for subscriber in email.subscribers.all %}
+                        <li>{{ subscriber.first_name }} {{ subscriber.last_name }} ({{ subscriber.email }})</li>
+                    {% endfor %}
+                </ul>
+                
+                <strong>Тема:</strong> {{ email.subject }}<br>
+
+                <strong>Дата отправки:</strong> {{ email.sent_at }}<br>
+                <strong>Статус:</strong> {{ email.get_status_display }}<br>
+
+                <!-- Выводим HTML-содержимое письма -->
+                <strong>Текст:</strong> <div>{{ email.message|safe }}</div><br>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p><a href="{% url 'index' %}"><i class="fas fa-home"></i> На главную</a></p>
+
+{% endblock content %}

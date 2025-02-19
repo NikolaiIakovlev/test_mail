@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <!-- Пример шаблона который загружен в админку и генерируется при рассылке-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приветственное письмо</title>
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            background-color: #4CAF50;
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            color: #fff;
+            margin: 0;
+            font-size: 26px;
+        }
+        .content {
+            padding: 20px;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .content h2 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        .content p {
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+            border-radius: 0 0 8px 8px;
+        }
+        .footer p {
+            font-size: 14px;
+            color: #777;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .unsubscribe {
+            font-size: 14px;
+            color: #888;
+            text-decoration: none;
+        }
+        .unsubscribe:hover {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Добро пожаловать в нашу рассылку!</h1>
+        </div>
+        <div class="content">
+            <h2>Привет, {{ first_name }} {{ last_name }}!</h2>
+            <p>Мы рады, что вы присоединились к нашей рассылке. В ближайшие дни мы будем отправлять вам самые актуальные новости и предложения.</p>
+<p><strong>{{ text }} </strong></p>
+            <p>Мы ценим ваше время и будем стараться, чтобы каждый наш email был полезен для вас!</p>
+            <p>Если у вас есть вопросы или пожелания, не стесняйтесь обращаться к нам.</p>
+            <a href="#" class="btn">Перейти на сайт</a>
+        </div>
+        <div class="footer">
+            <p>Если вы больше не хотите получать наши письма, вы можете <a href="#" class="unsubscribe">отписаться от рассылки</a>.</p>
+
+        </div>
+    </div>
+</body>
+
+
+</html>

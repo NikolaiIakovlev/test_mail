@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+ <div class="container mt-5">
+        <button class="btn btn-primary" id="createMailing">Создать рассылку</button>
+
+        <!-- Модальное окно для рассылки -->
+        <div class="modal fade" id="mailingModal" tabindex="-1" role="dialog" aria-labelledby="mailingModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="mailingModalLabel">Создание рассылки</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="mailingForm" method="post" class="p-4 bg-light shadow rounded">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <!-- Шаблон -->
+                            <div class="form-group">
+                                <label for="template" class="form-label">Шаблон</label>
+                                <select id="template" name="template" class="form-select">
+                                    <!-- Здесь будут шаблоны -->
+                                </select>
+                                {% if form.template.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.template.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Подписчики -->
+                            <div class="form-group">
+                                <label for="subscribers" class="form-label">Подписчики</label>
+                                <select id="subscribers" name="subscribers[]" class="form-select" multiple="multiple">
+                                    <!-- Здесь будут чекбоксы подписчиков -->
+                                </select>
+                                {% if form.subscribers.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.subscribers.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Заголовок -->
+                            <div class="form-group">
+                                <label for="title" class="form-label">Заголовок</label>
+                                <input type="text" id="title" name="title" class="form-control">
+                                {% if form.title.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.title.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Текст письма -->
+                            <div class="form-group">
+                                <label for="text" class="form-label">Текст письма</label>
+                                <textarea id="text" name="text" class="form-control" rows="4"></textarea>
+                                {% if form.text.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.text.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Время отправки -->
+                            <div class="form-group">
+                                <label for="scheduled_time" class="form-label">Время отправки</label>
+                                <input type="datetime-local" id="scheduled_time" name="scheduled_time" class="form-control">
+                                {% if form.scheduled_time.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.scheduled_time.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="links mt-4">
+            <p><a href="{% url 'sent_emails' %}"><i class="fas fa-envelope"></i> Просмотреть отправленные письма</a></p>
+            <p><a href="{% url 'recipients' %}"><i class="fas fa-users"></i> Просмотреть адресатов</a></p>
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+
+   

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<body>
+    <h1><i class="fas fa-user-plus"></i> Добавить адресата</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <div class="back-link">
+        <p><a href="{% url 'recipients' %}"><i class="fas fa-arrow-left"></i> Назад к списку</a></p>
+    </div>
+</body>
+{% endblock content %}

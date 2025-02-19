@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Рассылка</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Подключение Select2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+   <style> {% static "css/style.css" %}</style>
+</head>
+<body>
+    {% block content %}
+    
+    {% endblock content %}
+    <!-- Подключение Bootstrap и jQuery -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Открытие модального окна
+            $('#createMailing').on('click', function() {
+                $('#mailingModal').modal('show');
+                loadTemplates();
+                loadSubscribers();
+            });
+    
+            // Загрузка шаблонов через AJAX
+            function loadTemplates() {
+                $.ajax({
+                    url: '{% url "load_templates" %}',  // URL для получения шаблонов
+                    type: 'GET',
+                    success: function(data) {
+                        var options = '<option value="">Выберите шаблон</option>';
+                        $.each(data.templates, function(index, template) {
+                            options += `<option value="${template.id}">${template.name}</option>`;
+                        });
+                        $('#template').html(options);
+                    }
+                });
+            }
+    
+            // Загрузка подписчиков через AJAX и создание чекбоксов для Select2
+            function loadSubscribers() {
+                $.ajax({
+                    url: '{% url "load_subscribers" %}',  // URL для получения подписчиков
+                    type: 'GET',
+                    success: function(data) {
+                        var options = '';
+                        $.each(data.subscribers, function(index, subscriber) {
+                            options += `<option value="${subscriber.id}">${subscriber.first_name} ${subscriber.last_name}</option>`;
+                        });
+                        $('#subscribers').html(options);
+                        // Инициализация Select2
+                        $('#subscribers').select2({
+                            placeholder: 'Выберите подписчиков',
+                            allowClear: true,
+                            width: '100%'
+                        });
+                    }
+                });
+            }
+    
+            // Отправка формы через AJAX
+            $('#mailingForm').on('submit', function(e) {
+                e.preventDefault();
+    
+                // Получаем данные формы и выбранных подписчиков
+                var formData = $(this).serialize();  // Сериализация данных формы
+                var selectedSubscribers = $('#subscribers').val();  // Получаем выбранных подписчиков
+    
+                // Добавляем список выбранных подписчиков в форму
+                formData += '&subscribers=' + selectedSubscribers.join(',');
+    
+                console.log('Отправляемые данные:', formData);  // Для отладки, чтобы убедиться, что данные правильно собираются
+    
+                $.ajax({
+                    url: '{% url "index" %}',  // URL для отправки рассылки
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        alert(response.message);
+                        $('#mailingModal').modal('hide');
+                    },
+                    error: function(response) {
+                        alert('Произошла ошибка при отправке рассылки');
+                    }
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>
